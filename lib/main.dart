@@ -1,10 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'assets/parcel.dart';
-import 'widget/refresh_widget.dart';
 
 void main() {
   runApp(const MyApp());
@@ -103,7 +100,7 @@ class _ParcelListState extends State<ParcelList> {
         parcel_id: '92183912843023812',
         shippingprovider: 'DHL'));
 
-    setState(() => this.data = data);
+    setState(() => data = data);
   }
 
   @override
