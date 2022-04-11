@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shipped/assets/getTrackingInformation.dart';
 import 'package:shipped/assets/parcel.dart';
 
 class AddParcel extends StatefulWidget {
@@ -12,19 +13,20 @@ final _formKey = GlobalKey<FormState>();
 
 class _AddParcelState extends State<AddParcel> {
   String dropdownValue = 'DHL';
-  TextEditingController _parcelIdController = new TextEditingController();
-  TextEditingController _parcelValueController = new TextEditingController();
+  final TextEditingController _parcelIdController = new TextEditingController();
+  final TextEditingController _parcelValueController = new TextEditingController();
   void validateAndSave() {
-    final form = _formKey.currentState;
-    if (form!.validate()) {
-      Navigator.pop(
-          context,
-          Shipment(
-              parcelname: _parcelIdController.text,
-              parcel_id: _parcelValueController.text,
-              shippingprovider: dropdownValue));
+  final form = _formKey.currentState;
+  if (form!.validate()) {
+    getTrackingData("EZ2000000002").then((TrackingInfo result){
+    Shipment parcel = Shipment(
+              parcel_id: "EZ2000000002"	,
+              parcelname: _parcelValueController.text,
+              shippingprovider: dropdownValue, tracking: result); 
+    Navigator.pop(
+          context, parcel);
+    });
     } else {
-      print('form is invalid');
     }
   }
 

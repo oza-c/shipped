@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:shipped/sites/addParcel.dart';
+import 'package:shipped/sites/watchParcel.dart';
 import 'assets/parcel.dart';
 
 void main() {
@@ -162,55 +163,59 @@ class _ParcelListState extends State<ParcelList> {
         if(result != null) addDataToList(result);
   }
 
-  Widget buildItem(Shipment parcel) => Container(
-      child: Stack(children: <Widget>[
-        Positioned(
-            top: 40,
-            left: 5,
-            child: Container(
-                width: 100,
-                height: 100,
-                child: const Icon(Icons.mail, size: 70))),
-        Positioned(
-            top: 40,
-            left: 110,
-            child: Container(
-                width: 250,
-                height: 40,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(parcel.parcelname,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 20)),
-                ))),
-        Positioned(
-            top: 70,
-            left: 110,
-            child: Container(
-                width: 250,
-                height: 40,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(parcel.parcel_id,
-                      style: const TextStyle(fontSize: 15)),
-                ))),
-        Positioned(
-            top: 100,
-            left: 110,
-            child: Container(
-                width: 250,
-                height: 70,
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text("Das Paket ist im Zustellzentrum angekommen",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
-                ))),
-      ]),
-      decoration: const BoxDecoration(
-          boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 15)],
-          shape: BoxShape.rectangle,
-          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-          color: Colors.white),
-      height: 200);
+  Widget buildItem(Shipment parcel) => InkWell(
+    onTap:() => Navigator.push(
+        context, MaterialPageRoute(builder: ((context) => watchParcel(activParcel: parcel)))),
+    child: Container(
+        child: Stack(children: <Widget>[
+          Positioned(
+              top: 40,
+              left: 5,
+              child: Container(
+                  width: 100,
+                  height: 100,
+                  child: const Icon(Icons.mail, size: 70))),
+          Positioned(
+              top: 40,
+              left: 110,
+              child: Container(
+                  width: 250,
+                  height: 40,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(parcel.parcelname,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20)),
+                  ))),
+          Positioned(
+              top: 70,
+              left: 110,
+              child: Container(
+                  width: 250,
+                  height: 40,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(parcel.parcel_id,
+                        style: const TextStyle(fontSize: 15)),
+                  ))),
+          Positioned(
+              top: 100,
+              left: 110,
+              child: Container(
+                  width: 250,
+                  height: 70,
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text("Das Paket ist im Zustellzentrum angekommen",
+                        style:
+                            TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                  ))),
+        ]),
+        decoration: const BoxDecoration(
+            boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 15)],
+            shape: BoxShape.rectangle,
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+            color: Colors.white),
+        height: 200),
+  );
 }
