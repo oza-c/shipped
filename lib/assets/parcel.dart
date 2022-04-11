@@ -49,7 +49,7 @@ class TrackingInfo {
         status: json['status'],
         weight: json['weight'],
         estDeliveryDate: json['est_delivery_date'],
-        trackingDetails: new List.from(trackingsList.reversed));
+        trackingDetails: List.from(trackingsList.reversed));
   }
 }
 

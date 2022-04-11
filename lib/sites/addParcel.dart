@@ -13,14 +13,14 @@ final _formKey = GlobalKey<FormState>();
 
 class _AddParcelState extends State<AddParcel> {
   String dropdownValue = 'DHL';
-  final TextEditingController _parcelIdController = new TextEditingController();
-  final TextEditingController _parcelValueController = new TextEditingController();
+  final TextEditingController _parcelIdController = TextEditingController();
+  final TextEditingController _parcelValueController = TextEditingController();
   void validateAndSave() {
   final form = _formKey.currentState;
   if (form!.validate()) {
-    getTrackingData("EZ2000000002").then((TrackingInfo result){
+    getTrackingData(_parcelIdController.text).then((TrackingInfo result){
     Shipment parcel = Shipment(
-              parcel_id: "EZ2000000002"	,
+              parcel_id: _parcelIdController.text	,
               parcelname: _parcelValueController.text,
               shippingprovider: dropdownValue, tracking: result); 
     Navigator.pop(
@@ -29,7 +29,7 @@ class _AddParcelState extends State<AddParcel> {
     } else {
     }
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

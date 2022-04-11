@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:shipped/assets/getTrackingInformation.dart';
 import 'package:shipped/assets/parcel.dart';
-import "package:intl/intl.dart";
 
 class watchParcel extends StatefulWidget {
   const watchParcel({Key? key, required this.activParcel}) : super(key: key);
@@ -13,14 +12,13 @@ class watchParcel extends StatefulWidget {
 }
 
 class _watchParcelState extends State<watchParcel> {
-
-    Future reloadTrackingInfo() async {
-    getTrackingData("EZ2000000002").then((TrackingInfo result){
+  Future reloadTrackingInfo() async {
+    getTrackingData(widget.activParcel.parcel_id).then((TrackingInfo result) {
       setState(() {
         widget.activParcel.tracking = result;
       });
-  });
-    }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +37,8 @@ class _watchParcelState extends State<watchParcel> {
             padding: const EdgeInsets.all(8),
             itemCount: widget.activParcel.tracking.trackingDetails.length,
             itemBuilder: (context, index) {
-              return buildItem(widget.activParcel.tracking.trackingDetails[index]);
+              return buildItem(
+                  widget.activParcel.tracking.trackingDetails[index]);
             },
             separatorBuilder: (BuildContext context, int index) =>
                 const Divider(),
@@ -49,13 +48,13 @@ class _watchParcelState extends State<watchParcel> {
 
   Widget buildItem(TrackingDetail tracking) => Container(
       child: Stack(children: <Widget>[
-        const Positioned(
+        Positioned(
             top: 10,
             left: 5,
             child: SizedBox(
                 width: 100,
                 height: 100,
-                child: Icon(Icons.mail, size: 70))),
+                child: Icon(getIconStatusFromName(tracking.status), size: 70))),
         Positioned(
             top: 20,
             left: 110,
@@ -76,7 +75,8 @@ class _watchParcelState extends State<watchParcel> {
                 height: 40,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(DateTime.parse(tracking.datetime).toLocal().toString(),
+                  child: Text(
+                      DateTime.parse(tracking.datetime).toLocal().toString(),
                       style: const TextStyle(fontSize: 15)),
                 ))),
       ]),

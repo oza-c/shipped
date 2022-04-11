@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:shipped/assets/getTrackingInformation.dart';
 import 'package:shipped/sites/addParcel.dart';
 import 'package:shipped/sites/watchParcel.dart';
 import 'assets/parcel.dart';
@@ -96,6 +97,7 @@ class _ParcelListState extends State<ParcelList> {
   Widget buildList() => data.isEmpty
       ? Center(
           child: ElevatedButton(
+            style: ElevatedButton.styleFrom(primary: const Color.fromARGB(196, 226, 133, 19)),
             onPressed: (() {
               addNewEntry();
             }), child: Container(
@@ -108,31 +110,20 @@ class _ParcelListState extends State<ParcelList> {
               ]
             ))))            
       : Scaffold(
-          body: NestedScrollView(
-            floatHeaderSlivers: true,
-            headerSliverBuilder: (context, innerBoxIsScrolled) => [
-              const SliverAppBar(
-                floating: true,
-                snap: true,
-                title: Text("Add Parcel +"),
-                centerTitle: true,
-                backgroundColor: Color.fromARGB(225, 226, 133, 19),
-              )
-            ],
-            body: LiquidPullToRefresh(
+            body: NotificationListener<UserScrollNotification>(
+              onNotification: (notification) {
+                if (notification.direction == ScrollDirection.forward) {
+                  if (!isFabVisible) setState(() => isFabVisible = true);
+                } else if (notification.direction ==
+                    ScrollDirection.reverse) {
+                  if (isFabVisible) setState(() => isFabVisible = false);
+                }
+                return true;
+              },
+              child: LiquidPullToRefresh(
               onRefresh: loadList,
               color: const Color.fromARGB(196, 226, 133, 19),
               key: null,
-              child: NotificationListener<UserScrollNotification>(
-                onNotification: (notification) {
-                  if (notification.direction == ScrollDirection.forward) {
-                    if (!isFabVisible) setState(() => isFabVisible = true);
-                  } else if (notification.direction ==
-                      ScrollDirection.reverse) {
-                    if (isFabVisible) setState(() => isFabVisible = false);
-                  }
-                  return true;
-                },
                 child: ListView.separated(
                   shrinkWrap: true,
                   primary: false,
@@ -146,14 +137,13 @@ class _ParcelListState extends State<ParcelList> {
                 ),
               ),
             ),
-          ),
           floatingActionButton: isFabVisible
               ? FloatingActionButton(
                   onPressed: () async {
                     await addNewEntry();
                   },
                   backgroundColor: Color.fromARGB(255, 226, 133, 19),
-                  child: Icon(Icons.add))
+                  child: const Icon(Icons.add))
               : null,
         );
 
@@ -174,7 +164,7 @@ class _ParcelListState extends State<ParcelList> {
               child: Container(
                   width: 100,
                   height: 100,
-                  child: const Icon(Icons.mail, size: 70))),
+                  child: Icon(getIconStatusFromName(parcel.tracking.status), size: 70))),
           Positioned(
               top: 40,
               left: 110,
@@ -204,11 +194,11 @@ class _ParcelListState extends State<ParcelList> {
               child: Container(
                   width: 250,
                   height: 70,
-                  child: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text("Das Paket ist im Zustellzentrum angekommen",
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(parcel.tracking.trackingDetails.first.message,
                         style:
-                            TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                            const TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
                   ))),
         ]),
         decoration: const BoxDecoration(
