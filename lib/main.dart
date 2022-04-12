@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:shipped/assets/getTrackingInformation.dart';
+import 'package:shipped/sites/addParcel.dart';
+import 'package:shipped/sites/watchParcel.dart';
+import 'assets/parcel.dart';
 
 void main() {
   runApp(const MyApp());
@@ -6,110 +12,217 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Shipped',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+        primaryColor: Colors.white,
+        brightness: Brightness.light,
+        primaryColorDark: Colors.black,
+        canvasColor: Colors.white,
+        cardColor: Colors.white,
+        ),
+    darkTheme: ThemeData(
+        primaryColor: Color.fromARGB(255, 47, 47, 47),
+        primaryColorLight: Colors.black,
+        brightness: Brightness.dark,
+        primaryColorDark: Color.fromARGB(255, 47, 47, 47),      
+        indicatorColor: Colors.white,
+        canvasColor: Color.fromARGB(255, 47, 47, 47),
+        cardColor: Color.fromARGB(255, 68, 68, 68)
+        // next line is important!
+        ),
+        themeMode: ThemeMode.dark,
+      home: const HomeScreen(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        backgroundColor: const Color.fromARGB(196, 226, 133, 19),
+        title: const Text("Shipped - Track your Parcels"),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Color.fromARGB(196, 226, 133, 19),
+              ),
+              child: Text('Menu'),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+            ListTile(
+              title: const Text('Item 1'),
+              onTap: () {},
+            ),
+            ListTile(
+              title: const Text(''),
+              onTap: () {},
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      body: Padding(
+          padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+          child: ParcelList()),
     );
   }
+}
+
+class ParcelList extends StatefulWidget {
+  @override
+  _ParcelListState createState() => _ParcelListState();
+}
+
+class _ParcelListState extends State<ParcelList> {
+  List<Shipment> data = [];
+  static bool isFabVisible = true;
+
+  @override
+  void initState() {
+    super.initState();
+
+    loadList();
+  }
+
+  Future loadList() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    setState(() => data = data);
+  }
+
+  Future addDataToList(Shipment getData) async {
+    data.add(getData);
+    loadList();
+  }
+
+  @override
+  Widget build(BuildContext context) => buildList();
+
+  Widget buildList() => data.isEmpty
+      ? Center(
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(primary: const Color.fromARGB(196, 226, 133, 19)),
+            onPressed: (() {
+              addNewEntry();
+            }), child: Container(
+              height: 60,
+              width: 200,
+              child: Row(
+              children: const <Widget>[
+                Icon(Icons.add),
+                Text("Add your first Parcel")
+              ]
+            ))))            
+      : Scaffold(
+            body: NotificationListener<UserScrollNotification>(
+              onNotification: (notification) {
+                if (notification.direction == ScrollDirection.forward) {
+                  if (!isFabVisible) setState(() => isFabVisible = true);
+                } else if (notification.direction ==
+                    ScrollDirection.reverse) {
+                  if (isFabVisible) setState(() => isFabVisible = false);
+                }
+                return true;
+              },
+              child: LiquidPullToRefresh(
+              onRefresh: loadList,
+              color: const Color.fromARGB(196, 226, 133, 19),
+              key: null,
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  primary: false,
+                  padding: const EdgeInsets.all(8),
+                  itemCount: data.length,
+                  itemBuilder: (context, index) {
+                    return buildItem(data[index]);
+                  },
+                  separatorBuilder: (BuildContext context, int index) =>
+                      const Divider(),
+                ),
+              ),
+            ),
+          floatingActionButton: isFabVisible
+              ? FloatingActionButton(
+                  onPressed: () async {
+                    await addNewEntry();
+                  },
+                  backgroundColor: Color.fromARGB(255, 226, 133, 19),
+                  child: const Icon(Icons.add))
+              : null,
+        );
+
+  Future<void> addNewEntry() async {
+    final result = await Navigator.push(
+        context, MaterialPageRoute(builder: ((context) => const AddParcel())));
+        if(result != null) addDataToList(result);
+  }
+
+  Widget buildItem(Shipment parcel) => InkWell(
+    onTap:() => Navigator.push(
+        context, MaterialPageRoute(builder: ((context) => watchParcel(activParcel: parcel)))),
+    child: Container(
+        child: Stack(children: <Widget>[
+          Positioned(
+              top: 40,
+              left: 5,
+              child: Container(
+                  width: 100,
+                  height: 100,
+                  child: Icon(getIconStatusFromName(parcel.tracking.status), size: 70))),
+          Positioned(
+              top: 40,
+              left: 110,
+              child: Container(
+                  width: 250,
+                  height: 40,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(parcel.parcelname,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20)),
+                  ))),
+          Positioned(
+              top: 70,
+              left: 110,
+              child: Container(
+                  width: 250,
+                  height: 40,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(parcel.parcel_id,
+                        style: const TextStyle(fontSize: 15)),
+                  ))),
+          Positioned(
+              top: 100,
+              left: 110,
+              child: Container(
+                  width: 250,
+                  height: 70,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(parcel.tracking.trackingDetails.first.message,
+                        style:
+                            const TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                  ))),
+        ]),
+        decoration: BoxDecoration(
+            boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 15)],
+            shape: BoxShape.rectangle,
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+            color: Theme.of(context).cardColor,
+            ),
+        height: 200),
+  );
 }
