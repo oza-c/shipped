@@ -1,22 +1,29 @@
 # shipped
-<p float="left">
-  <img src="./images/image1.png" width="100" />
-  <img src="./images/image2.png" width="100" />
-  <img src="./images/image3.png" width="100" />
-  <img src="./images/image4.png" width="100" />
-  <img src="./images/image5.png" width="100" />
-</p>
-My very first app in flutter, which I created for learning purposes
+![ScreenShot1](./images/Banner.png)
+Track your Parcels via EasyPost API
 
-## Getting Started
+# Informations
 
-This project is a starting point for a Flutter application.
+- My idea was to develop a small app which brings Flutter and its environment a bit closer to me. It was important to me to create a project that would actually have a real use case.
+- There are still some things that can be improved about the app.... I'll definitely come back to this when I've really mastered Flutter.
 
-A few resources to get you started if this is your first Flutter project:
+## Features:
+- [x] Track a pracel
+- [x] nice list ;)
+- [x] refresh animation
+- [x] Icons for the individual statuses
+- [x] detailed view of each parcel
+- [x] Dark/Light Mode
+- [x] nice animations
+- [ ] Treat the detail page with more love <3
+- [ ] save parcel to the storage
+- [ ] delete / edit old parcels
+- [ ] a kind of sorting
+- [ ] a way to choose the tracking backand (more individual)
+- [ ] ....
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Used Dependencies
+- [cupertino_icons: ^1.0.2](https://pub.dev/packages/cupertino_icons)
+- [liquid_pull_to_refresh: ^3.0.1](https://pub.dev/packages/liquid_pull_to_refresh)
+- [intl: ^0.17.0](https://pub.dev/packages/intl)
+- [http: ^0.13.4](https://pub.dev/packages/http)
