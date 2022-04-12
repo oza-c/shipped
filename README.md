@@ -1,6 +1,12 @@
 # shipped
-
-A new Flutter project.
+<p float="left">
+  <img src="./images/image1.png" width="100" />
+  <img src="./images/image2.png" width="100" />
+  <img src="./images/image3.png" width="100" />
+  <img src="./images/image4.png" width="100" />
+  <img src="./images/image5.png" width="100" />
+</p>
+My very first app in flutter, which I created for learning purposes
 
 ## Getting Started
 
