@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:shipped/assets/parcel.dart';
 
 
-String _apiKey = "EZTKe1e2f47481794c22a877b7159d1d770bUK0oRHpzYUZJcgrEdNK1jQ";
+String _apiKey = ""; //PUT YOUR API KEY HERE;
 String basicAuth = 'Basic ' + base64Encode(utf8.encode(_apiKey));
 
 Future<TrackingInfo> getTrackingData(String parcel) async {
