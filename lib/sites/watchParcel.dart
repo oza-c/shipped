@@ -23,7 +23,6 @@ class _watchParcelState extends State<watchParcel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: const Color.fromARGB(196, 226, 133, 19),
           title: Text(widget.activParcel.parcelname),
@@ -80,10 +79,10 @@ class _watchParcelState extends State<watchParcel> {
                       style: const TextStyle(fontSize: 15)),
                 ))),
       ]),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
           boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 15)],
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
-          color: Colors.white),
+          color: Theme.of(context).cardColor),
       height: 115);
 }

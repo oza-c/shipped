@@ -29,11 +29,10 @@ class _AddParcelState extends State<AddParcel> {
     } else {
     }
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(196, 226, 133, 19),
         title: const Text("Add your Parcel"),
@@ -50,7 +49,7 @@ class _AddParcelState extends State<AddParcel> {
                 autocorrect: false,
                 controller: _parcelIdController,
                 decoration: const InputDecoration(
-                  labelText: 'Sendungsnummer',
+                  labelText: 'Tracking id',
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
@@ -65,7 +64,7 @@ class _AddParcelState extends State<AddParcel> {
                 width: 500,
                 child: DropdownButtonFormField<String>(
                   decoration: const InputDecoration(
-                    labelText: 'Lieferdienst',
+                    labelText: 'Carrier',
                     border: OutlineInputBorder(),
                   ),
                   value: dropdownValue,
@@ -105,12 +104,13 @@ class _AddParcelState extends State<AddParcel> {
                 autocorrect: false,
                 controller: _parcelValueController,
                 decoration: const InputDecoration(
-                  labelText: 'Inhalt',
+                  labelText: 'Package name',
                   border: OutlineInputBorder(),
                 ),
               ),
               const SizedBox(height: 10),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(primary: const Color.fromARGB(196, 226, 133, 19)),
                   onPressed: () {
                     validateAndSave();
                   },

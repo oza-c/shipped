@@ -16,7 +16,24 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Shipped',
-      theme: ThemeData(),
+      theme: ThemeData(
+        primaryColor: Colors.white,
+        brightness: Brightness.light,
+        primaryColorDark: Colors.black,
+        canvasColor: Colors.white,
+        cardColor: Colors.white,
+        ),
+    darkTheme: ThemeData(
+        primaryColor: Color.fromARGB(255, 47, 47, 47),
+        primaryColorLight: Colors.black,
+        brightness: Brightness.dark,
+        primaryColorDark: Color.fromARGB(255, 47, 47, 47),      
+        indicatorColor: Colors.white,
+        canvasColor: Color.fromARGB(255, 47, 47, 47),
+        cardColor: Color.fromARGB(255, 68, 68, 68)
+        // next line is important!
+        ),
+        themeMode: ThemeMode.dark,
       home: const HomeScreen(),
     );
   }
@@ -32,7 +49,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(196, 226, 133, 19),
         title: const Text("Shipped - Track your Parcels"),
@@ -201,11 +217,12 @@ class _ParcelListState extends State<ParcelList> {
                             const TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
                   ))),
         ]),
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
             boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 15)],
             shape: BoxShape.rectangle,
             borderRadius: BorderRadius.all(Radius.circular(20.0)),
-            color: Colors.white),
+            color: Theme.of(context).cardColor,
+            ),
         height: 200),
   );
 }
